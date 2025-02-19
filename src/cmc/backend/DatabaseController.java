@@ -44,7 +44,8 @@ public class DatabaseController {
 		int result = this.database.user_deleteUser(username);
 		if (result != 1) {
 			// TODO: How can we tell the difference?
-			throw new CMCException("Error removing user from the DB.  Not present?  DB error?");
+			throw new CMCException("Error removing user \"" + username +
+					"\" from the DB.  Not present?  DB error?");
 		}
 		else {
 			return true;
