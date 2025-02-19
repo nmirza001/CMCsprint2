@@ -32,7 +32,7 @@ public class DeactivatedUserCanStillLogin {
 	}
 	
 	@Test
-	public void test() {
+	public void test() throws CMCException {
 		SystemController sc = new SystemController();
 		User user = sc.login(USERNAME, PASSWD);
 		Assert.assertNull(user);

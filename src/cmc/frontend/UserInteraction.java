@@ -3,6 +3,7 @@ package cmc.frontend;
 import java.util.List;
 import java.util.Scanner;
 
+import cmc.CMCException;
 import cmc.backend.SystemController;
 import cmc.backend.User;
 
@@ -23,7 +24,15 @@ public class UserInteraction {
 
 	// attempt to login, print message, and return success or failure
 	public boolean login(String username, String password) {
-		User result = this.theSystemController.login(username, password);
+		User result;
+		try {
+			result = this.theSystemController.login(username, password);
+		}
+		catch(CMCException e) {
+			System.out.println(e);
+			return false;
+		}
+		
 		if (result != null) {
 			System.out.println("Login successful!");
 			this.loggedInUser = result;

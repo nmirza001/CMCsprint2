@@ -25,14 +25,19 @@ public class SystemController {
 	 * @param password the password to check for matching the username
 	 * @return the matching User object if the username and password match
 	 * a database entry, or null otherwise
+	 * @throws CMCException
 	 */
-	public User login(String username, String password) {
+	public User login(String username, String password) throws CMCException {
 		String[] userData = this.myDBController.getUser(username);
 		if (userData == null)
 			return null;
 		
 		User theUser = new User(userData[2], userData[3], userData[4].charAt(0), userData[0],
 				userData[1]);
+		
+		String status = userData[5];
+		if(status.length() != 1) throw new CMCException("User status in DB malformed.");
+		theUser.setActivated(status.charAt(0));
 		
 		if (theUser.activated != 'Y' || !theUser.password.equals(password)) {
 			return null;
