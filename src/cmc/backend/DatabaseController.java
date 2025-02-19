@@ -20,8 +20,7 @@ public class DatabaseController {
 	// The default constructor that connects to the underlying
 	// UniversityDBLibrary object using your team's info.
 	public DatabaseController() {
-		// TODO: we'll need to update this to our team's actual database someday!
-		this.database = new UniversityDBLibrary("csci230", "Csci230$");
+		this.database = new UniversityDBLibrary("dei", "Csci230$");
 	}
 
 	// add a user to the db
