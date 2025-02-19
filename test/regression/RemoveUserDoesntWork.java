@@ -11,7 +11,6 @@ import cmc.*;
 public class RemoveUserDoesntWork {
 
 	private static final String PASSWD = "pass123$";
-	private static final String U_ADMIN = "test_test_test_admin_user";
 	private static final String U_USER = "test_test_test_regular_user";
 	
 	@Test
@@ -20,12 +19,9 @@ public class RemoveUserDoesntWork {
 		SystemController sc = new SystemController();
 		
 		db.addUser(U_USER, PASSWD, 'u', "Admin", "McAdministrator");
-		db.addUser(U_ADMIN, PASSWD, 'a', "Regular", "MacUser");
+		sc.saveSchool(U_USER, "BARD");
 		
 		boolean succ = db.removeUser(U_USER);
-		Assert.assertTrue(succ);
-
-		succ = db.removeUser(U_ADMIN);
 		Assert.assertTrue(succ);
 
 				
