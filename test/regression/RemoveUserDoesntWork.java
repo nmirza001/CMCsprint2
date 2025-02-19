@@ -25,7 +25,7 @@ public class RemoveUserDoesntWork {
 		boolean succ = db.removeUser(U_USER);
 		Assert.assertTrue(succ);
 
-		succ = db.removeUser(PASSWD);
+		succ = db.removeUser(U_ADMIN);
 		Assert.assertTrue(succ);
 
 				
