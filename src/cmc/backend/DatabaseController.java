@@ -41,7 +41,15 @@ public class DatabaseController {
 	
 	// remove a user from the db
 	public boolean removeUser(String username) throws CMCException {
+		
+		Map<String, List<String>> schoolMap = getUserSavedSchoolMap();
+		List<String> schools = schoolMap.get(username);
+		if(schools != null) {
+			for(String s : schools) database.user_removeSchool(username, s);
+		}
+		
 		int result = this.database.user_deleteUser(username);
+		
 		if (result != 1) {
 			// TODO: How can we tell the difference?
 			throw new CMCException("Error removing user \"" + username +
