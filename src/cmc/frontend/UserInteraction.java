@@ -104,10 +104,15 @@ public class UserInteraction {
 		System.out.print("School Name: ");
 		String schoolName = s.nextLine();
 
-		if (this.loggedInUser == null)
+		if (this.loggedInUser == null) {
 			return false;
-		else
-			return this.theSystemController.saveSchool(this.loggedInUser.username, schoolName);
+		} else {
+			try {
+				return this.theSystemController.saveSchool(this.loggedInUser.username, schoolName);
+			} catch(CMCException e) {
+				throw new RuntimeException(e);
+			}
+		}
 	}
 	
 	// get the list of saved school names for the currently-logged-in user

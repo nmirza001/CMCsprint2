@@ -97,7 +97,7 @@ public class SystemController {
 	
 	// this REGULAR USER ONLY method attempts to add the provided school
 	// to the list of saved schools for the provided username
-	public boolean saveSchool(String user, String school) {
+	public boolean saveSchool(String user, String school) throws CMCException {
 		return this.myDBController.saveSchool(user, school);
 	}
 	
