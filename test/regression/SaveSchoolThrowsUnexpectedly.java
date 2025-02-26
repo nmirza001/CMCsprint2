@@ -30,15 +30,13 @@ public class SaveSchoolThrowsUnexpectedly {
 	}
 	
 	@Test
-	public void test() {
-		boolean succ = db.saveSchool(USERNAME, "BARD");
+	public void test() throws CMCException {
+		
+		boolean succ = db.saveSchool(USERNAME, "CHALMERS UNIVERSITY OF TECHNOLOGY");
 		Assert.assertTrue(succ);
 		
-		succ = db.saveSchool(USERNAME, "BROWN");
-		Assert.assertTrue(succ);
-		
-		succ = db.saveSchool(USERNAME, "BAYLOR");
-		Assert.assertTrue(succ);
+		succ = db.saveSchool(USERNAME, "CHALMERS UNIVERSITY OF TECHNOLOGY");
+		Assert.assertFalse(succ);
 	}
 
 }
