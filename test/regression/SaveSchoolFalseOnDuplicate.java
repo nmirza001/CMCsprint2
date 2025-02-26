@@ -10,7 +10,7 @@ import cmc.CMCException;
 import cmc.backend.DatabaseController;
 import junit.framework.Assert;
 
-public class SaveSchoolThrowsUnexpectedly {
+public class SaveSchoolFalseOnDuplicate {
 
 	private static final String USERNAME = "test_test_test_ayo";
 	private static final String PASSWD = "onskibidi73";
