@@ -117,12 +117,17 @@ public class DatabaseController {
 	// save a school to a particular user's list
 	// TODO: It feels like we should be able to do this as part of
 	//       "updating" a user in the DB.
-	public boolean saveSchool(String username, String schoolName) {
+	public boolean saveSchool(String username, String schoolName) throws CMCException {
+		
+		Map<String, List<String>> schools = getUserSavedSchoolMap();
+		List<String> userSchools = schools.get(username);
+		// userSchools will be null if there are no saved schools
+		if(userSchools != null && userSchools.contains(schoolName)) return false;
+		
 		int result = this.database.user_saveSchool(username, schoolName);
 		if (result != 1) {
-			// TODO: How can we tell the difference?
-			String msg = String.format("Error saving school \"%s\" to user \"%s\" in the DB.",
-					schoolName, username);
+			String msg = String.format("(%d) Error saving school \"%s\" to user \"%s\" in the DB.",
+					result, schoolName, username);
 			throw new Error(msg + " Already present?  DB error?");
 		}
 		else {
