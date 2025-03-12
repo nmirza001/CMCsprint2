@@ -109,13 +109,23 @@ public class Driver {
 	private static void adminMenu(Scanner s) {
 		printHeader("Admin Menu");
 		
-		int choice = getMenuOption(s, Arrays.asList("View List of Users", "Logout"));
+		int choice = getMenuOption(s, Arrays.asList("View List of Users", "New University", "Logout"));
 		
 		switch(choice) {
 		case 1:
 			adminUserListMenu(s);
 			break;
 		case 2:
+			String[] uni = AdminAddSchool.prompt(s);
+			if(uni == null) {
+				System.out.println("\nAdd University canceled.");
+			}
+			else {
+				for(String k : uni) System.out.println(k);
+			}
+			adminMenu(s);
+			break;
+		case 3:
 			ui.logout();
 			break;
 		default:
