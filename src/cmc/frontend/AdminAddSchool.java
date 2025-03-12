@@ -11,11 +11,11 @@ public class AdminAddSchool {
 	
 	/**
 	 * Tries to get the next line of a scanner, but returns {@code null}
-	 * if EOF is found.
+	 * if the line is "EXIT"
 	 */
 	private static String tryLine(Scanner s) {
-		
-		return s.hasNextLine() ? s.nextLine() : null;
+		String line = s.nextLine();
+		return "EXIT".equals(line) ? null : line;
 	}
 	
 	/**
@@ -46,8 +46,7 @@ public class AdminAddSchool {
 	public static String[] prompt(Scanner s) {
 		
 		System.out.println("Fill out the university's information or");
-		// Ctrl + D sends EOF, i.e. no next line will be in the scanner
-		System.out.println("press Ctrl+D to cancel.\n");
+		System.out.println("enter 'EXIT' at any point to abort.\n");
 		
 		System.out.print("Name: ");
 		String name = tryLine(s);
