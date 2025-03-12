@@ -101,6 +101,7 @@ public class AdminAddSchool {
 			new NumberItem("Quality of Life Scale: ", 0, 5)
 		};
 		String[] numAns = queryAll(numQs, s);
+		if(numAns == null) return null;
 		
 		// TODO: Return a University object
 		String[] uni = new String[16];
