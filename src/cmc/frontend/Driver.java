@@ -121,7 +121,9 @@ public class Driver {
 				System.out.println("\nAdd University canceled.");
 			}
 			else {
-				for(String k : uni) System.out.println(k);
+				boolean succ = ui.addNewUniversity(uni);
+				if(succ) System.out.println("Successfully added university to system.");
+				else System.out.println("Failed to insert to database.");
 			}
 			adminMenu(s);
 			break;
