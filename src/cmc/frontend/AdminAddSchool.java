@@ -178,7 +178,8 @@ public class AdminAddSchool {
 		int sz = friendlyOptions.length;
 		
 		for(int i = 0; i < sz; i++) {
-			System.out.println(i + ") " + friendlyOptions[i]);
+			String msg = String.format("%d) %s", i + 1, friendlyOptions[i]);
+			System.out.println(msg);
 		}
 		
 		System.out.print("\n" + question);
