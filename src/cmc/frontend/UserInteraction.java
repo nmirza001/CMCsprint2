@@ -129,5 +129,19 @@ public class UserInteraction {
 	public User getLoggedInUser() {
 		return this.loggedInUser;
 	}
+	
+	/**
+	 * Adds a new university to the database.
+	 * @param uni University as string array
+	 * @return {@code true} if the operation succeeded.
+	 * @throws IllegalArgumentException if uni is null
+	 * @author Roman Lefler
+	 * @version Mar 12, 2025
+	 */
+	// TODO: Should be University object
+	public boolean addNewUniversity(String[] uni) {
+		if(uni == null) throw new IllegalArgumentException();
+		return theSystemController.addNewUniversity(uni);
+	}
 
 }

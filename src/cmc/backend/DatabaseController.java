@@ -156,4 +156,25 @@ public class DatabaseController {
 		return result;
 	}
 	
+	/**
+	 * Adds a new university to the database.
+	 * @return {@code true} if the operation succeeded.
+	 * @author Roman Lefler
+	 * @version Mar 12, 2025
+	 */
+	// TODO: Should be 1 parameter of University object
+	public boolean addNewUniversity(
+		String school, String state, String location, String control,
+		int numStudents, double percentFemale, double satVerbal, double satMath, double expenses,
+		double percentFinancialAid, int numApplicants, double percentAdmitted,
+		double percentEnrolled, int acadScale, int socialScale, int qualityOfLifeScale
+	) {
+		int result = database.university_addUniversity(school, state, location, control,
+				numStudents, percentFemale, satVerbal, satMath, expenses,
+				percentFinancialAid, numApplicants, percentAdmitted, percentEnrolled,
+				acadScale, socialScale, qualityOfLifeScale);
+		
+		return result == 1;
+	}
+	
 }
