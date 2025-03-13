@@ -3,8 +3,8 @@ package cmc.frontend;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-
-import cmc.CMCException;
+import cmc.*;
+import cmc.backend.entities.*;
 
 public class Driver {
 	
@@ -116,7 +116,7 @@ public class Driver {
 			adminUserListMenu(s);
 			break;
 		case 2:
-			String[] uni = AdminAddSchool.prompt(s);
+			University uni = AdminAddSchool.prompt(s);
 			if(uni == null) {
 				System.out.println("\nAdd University canceled.");
 			}

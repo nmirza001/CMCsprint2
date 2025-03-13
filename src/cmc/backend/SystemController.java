@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import cmc.CMCException;
+import cmc.backend.entities.University;
 
 public class SystemController {
 	private DatabaseController myDBController;
@@ -114,28 +115,11 @@ public class SystemController {
 	 * @return {@code true} if the operation succeeded.
 	 * @throws IllegalArgumentException if uni is null
 	 * @author Roman Lefler
-	 * @version Mar 12, 2025
+	 * @version Mar 13, 2025
 	 */
-	// TODO: Should be University object
-	public boolean addNewUniversity(String[] uni) {
-		if(uni == null) throw new IllegalArgumentException();
+	public boolean addNewUniversity(University uni) {
 		
-		int nNumStu = Integer.parseInt(uni[4]);
-		double fPercentFemale = Double.parseDouble(uni[5]);
-		double fSatVerbal = Double.parseDouble(uni[6]);
-		double fSatMath = Double.parseDouble(uni[7]);
-		double fExpenses = Double.parseDouble(uni[8]);
-		double fPercFinAid = Double.parseDouble(uni[9]);
-		int nNumAppl = Integer.parseInt(uni[10]);
-		double fPercAdmitted = Double.parseDouble(uni[11]);
-		double fPercEnrolled = Double.parseDouble(uni[12]);
-		int nAcad = Integer.parseInt(uni[13]);
-		int nSocial = Integer.parseInt(uni[14]);
-		int nQuality = Integer.parseInt(uni[15]);
-		return myDBController.addNewUniversity(uni[0], uni[1], uni[2], uni[3],
-				nNumStu, fPercentFemale, fSatVerbal, fSatMath, fExpenses,
-				fPercFinAid, nNumAppl, fPercAdmitted, fPercEnrolled,
-				nAcad, nSocial, nQuality);
+		return myDBController.addNewUniversity(uni);
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import cmc.CMCException;
+import cmc.backend.entities.University;
 import dblibrary.project.csci230.*;
 
 /**
@@ -160,19 +161,16 @@ public class DatabaseController {
 	 * Adds a new university to the database.
 	 * @return {@code true} if the operation succeeded.
 	 * @author Roman Lefler
-	 * @version Mar 12, 2025
+	 * @version Mar 13, 2025
 	 */
-	// TODO: Should be 1 parameter of University object
-	public boolean addNewUniversity(
-		String school, String state, String location, String control,
-		int numStudents, double percentFemale, double satVerbal, double satMath, double expenses,
-		double percentFinancialAid, int numApplicants, double percentAdmitted,
-		double percentEnrolled, int acadScale, int socialScale, int qualityOfLifeScale
-	) {
-		int result = database.university_addUniversity(school, state, location, control,
-				numStudents, percentFemale, satVerbal, satMath, expenses,
-				percentFinancialAid, numApplicants, percentAdmitted, percentEnrolled,
-				acadScale, socialScale, qualityOfLifeScale);
+	public boolean addNewUniversity(University u) {
+		int result = database.university_addUniversity(
+				u.getName(), u.getState(), u.getLocation(), u.getControl(),
+				u.getNumStudents(), u.getPercentFemale(), u.getSatVerbal(),
+				u.getSatMath(), u.getExpenses(), u.getPercentFinancialAid(),
+				u.getNumApplicants(), u.getPercentAdmitted(),
+				u.getPercentEnrolled(), u.getScaleAcademics(),
+				u.getScaleSocial(), u.getScaleQualityOfLife());
 		
 		return result == 1;
 	}

@@ -2,6 +2,8 @@ package cmc.frontend;
 
 import java.util.Scanner;
 
+import cmc.backend.entities.University;
+
 /**
  * TUI to take information from an admin to add a school.
  * @author Roman Lefler
@@ -40,10 +42,9 @@ public class AdminAddSchool {
 	 * @param s A scanner to read input from.
 	 * @return A university or {@code null} if the user aborts.
 	 * @author Roman Lefler
-	 * @version Mar 11, 2025
+	 * @version Mar 13, 2025
 	 */
-	// TODO: This method should return a University object.
-	public static String[] prompt(Scanner s) {
+	public static University prompt(Scanner s) {
 		
 		System.out.println("Fill out the university's information or");
 		System.out.println("enter 'EXIT' at any point to abort.\n");
@@ -87,51 +88,69 @@ public class AdminAddSchool {
 		
 		System.out.println("Just press enter for any of the following if unknown.");
 		NumberItem[] numQs = new NumberItem[] {
-			new NumberItem("# of Students: ", 0, Integer.MAX_VALUE),
+			new NumberItem("# of Students: ", 0, Integer.MAX_VALUE, false),
 			new NumberItem("% Female: ", 0, 100),
 			new NumberItem("Verbal SAT Score: ", 200, 800),
 			new NumberItem("Math SAT Score: ", 200, 800),
-			new NumberItem("Expenses", 0, Integer.MAX_VALUE),
+			new NumberItem("Expenses", 0, Double.MAX_VALUE),
 			new NumberItem("% Financial Aid: ", 0, 100),
-			new NumberItem("# of Applicants:", 0, Integer.MAX_VALUE),
+			new NumberItem("# of Applicants:", 0, Integer.MAX_VALUE, false),
 			new NumberItem("% Admitted: ", 0, 100),
 			new NumberItem("% Enrolled: ", 0, 100),
-			new NumberItem("Academics Scale: ", 0, 5),
-			new NumberItem("Social Scale: ", 0, 5),
-			new NumberItem("Quality of Life Scale: ", 0, 5)
+			new NumberItem("Academics Scale: ", 0, 5, false),
+			new NumberItem("Social Scale: ", 0, 5, false),
+			new NumberItem("Quality of Life Scale: ", 0, 5, false)
 		};
 		String[] numAns = queryAll(numQs, s);
 		if(numAns == null) return null;
 		
-		// TODO: Return a University object
-		String[] uni = new String[16];
-		uni[0] = name;
-		uni[1] = state;
-		uni[2] = location;
-		uni[3] = control;
-		System.arraycopy(numAns, 0, uni, 4, 12);
+		University u = new University(name);
+		u.setState(state);
+		u.setLocation(location);
+		u.setControl(control);
+		u.setNumStudents(Integer.parseInt(numAns[0]));
+		u.setPercentFemale(Double.parseDouble(numAns[1]));
+		u.setSatVerbal(Double.parseDouble(numAns[2]));
+		u.setSatMath(Double.parseDouble(numAns[3]));
+		u.setExpenses(Double.parseDouble(numAns[4]));
+		u.setPercentFinancialAid(Double.parseDouble(numAns[5]));
+		u.setNumApplicants(Integer.parseInt(numAns[6]));
+		u.setPercentAdmitted(Double.parseDouble(numAns[7]));
+		u.setPercentEnrolled(Double.parseDouble(numAns[8]));
+		u.setScaleAcademics(Integer.parseInt(numAns[9]));
+		u.setScaleSocial(Integer.parseInt(numAns[10]));
+		u.setScaleQualityOfLife(Integer.parseInt(numAns[11]));
 		
-		return uni;
+		return u;
 	}
 	
 	/**
 	 * Information to use with {@link AdminAddSchool#queryAll}.
 	 */
 	static class NumberItem {
-		public NumberItem(String q, int lo, int hi) {
+		
+		public NumberItem(String q, double lo, double hi) {
+			this(q, lo, hi, true);
+		}
+		
+		public NumberItem(String q, double lo, double hi, boolean isDouble) {
 			question = q;
 			min = lo;
 			max = hi;
+			this.isDouble = isDouble;
 		}
 		
 		protected String question;
-		protected int min;
-		protected int max;
+		protected double min;
+		protected double max;
+		protected boolean isDouble;
 	}
 	
 	/**
 	 * Asks all questions and returns an array with their answers
 	 * as numbers in an array corresponding to the inputed array.
+	 * @author Roman Lefler
+	 * @version Mar 13, 2025
 	 */
 	private static String[] queryAll(NumberItem[] items, Scanner s) {
 		int sz = items.length;
@@ -143,7 +162,9 @@ public class AdminAddSchool {
 			
 			String input = tryLine(s);
 			if(input == null) return null;
-			output[i] = numInRange(input, k.min, k.max) + "";
+			double num = numInRange(input, k.min, k.max);
+			// If it's an int type truncate it
+			output[i] = k.isDouble ? num + "" : (int)num + "";
 		}
 		
 		return output;
@@ -157,7 +178,7 @@ public class AdminAddSchool {
 	 * @param hi Maximum inclusive
 	 * @return Number in range or -1.
 	 */
-	private static int numInRange(String s, int lo, int hi) {
+	private static double numInRange(String s, double lo, double hi) {
 		int num = tryParseInt(s);
 		if(num < lo || num > hi) return -1;
 		else return num;

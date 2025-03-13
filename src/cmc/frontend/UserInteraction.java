@@ -6,6 +6,7 @@ import java.util.Scanner;
 import cmc.CMCException;
 import cmc.backend.SystemController;
 import cmc.backend.User;
+import cmc.backend.entities.University;
 
 public class UserInteraction {
 	
@@ -136,10 +137,9 @@ public class UserInteraction {
 	 * @return {@code true} if the operation succeeded.
 	 * @throws IllegalArgumentException if uni is null
 	 * @author Roman Lefler
-	 * @version Mar 12, 2025
+	 * @version Mar 13, 2025
 	 */
-	// TODO: Should be University object
-	public boolean addNewUniversity(String[] uni) {
+	public boolean addNewUniversity(University uni) {
 		if(uni == null) throw new IllegalArgumentException();
 		return theSystemController.addNewUniversity(uni);
 	}
