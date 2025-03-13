@@ -90,7 +90,7 @@ public class UserInteraction {
 		return this.theSystemController.removeUser(username);
 	}
 	
-	public List<String[]> search(Scanner s) {
+	public List<University> search(Scanner s) {
 		// TODO: in the future, we would like to support searching by various
 		//       criteria, but we'll settle for just state for now
 		System.out.print("State (leave blank to not search by this criterion): ");

@@ -136,11 +136,11 @@ public class Driver {
 		}
 	}
 	
-	private static void searchResultsMenu(Scanner s, List<String[]> results) {
+	private static void searchResultsMenu(Scanner s, List<University> results) {
 		printHeader("Search Results");
 
-		for (String[] school : results) {
-			System.out.println(school[0] + " | " + school[1]);
+		for (University school : results) {
+			System.out.println(school.getName() + " | " + school.getState());
 		}
 		System.out.println();
 
@@ -190,7 +190,7 @@ public class Driver {
 		case 1:
 			// TODO: it would be cleaner to use objects here (rather than
 			//       arrays of strings)
-			List<String[]> searchResult = ui.search(s);
+			List<University> searchResult = ui.search(s);
 			searchResultsMenu(s, searchResult);
 			break;
 		case 2:

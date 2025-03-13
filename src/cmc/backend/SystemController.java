@@ -83,13 +83,13 @@ public class SystemController {
 	
 	// this REGULAR USER ONLY method searches for schools in the database
 	// based on provided criteria (just state for now)
-	public List<String[]> search(String state) {
-		List<String[]> schoolList = this.myDBController.getAllSchools();
+	public List<University> search(String state) {
+		List<University> schoolList = this.myDBController.getAllSchools();
 		
-		List<String[]> filteredList = new ArrayList<String[]>();
+		List<University> filteredList = new ArrayList<>();
 		for (int i = 0; i < schoolList.size(); i++) {
-			String[] school = schoolList.get(i);
-			if (state.equals("") || school[1].equals(state) || school[1] == "")
+			University school = schoolList.get(i);
+			if (state.equals("") || school.getState().equals(state) || school.getState() == "")
 				filteredList.add(school);
 		}
 		

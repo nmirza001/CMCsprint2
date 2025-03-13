@@ -103,13 +103,34 @@ public class DatabaseController {
 		}
 	}
 	
-	// get the list of all the universities in the DB
-	public List<String[]> getAllSchools() {
+	/**
+	 * Gets the list of all the universities in the DB
+	 * @return A list of universities
+	 * @author Roman Lefler
+	 * @version Mar 13, 2025
+	 */
+	public List<University> getAllSchools() {
 		String[][] dbUniversityList = this.database.university_getUniversities();
 
-		ArrayList<String[]> result = new ArrayList<String[]>();
-		for (String[] school : dbUniversityList) {
-			result.add(school);
+		ArrayList<University> result = new ArrayList<>();
+		for (String[] k : dbUniversityList) {
+			University u = new University(k[0]);
+			u.setState(k[1]);
+			u.setLocation(k[2]);
+			u.setControl(k[3]);
+			u.setNumStudents(Integer.parseInt(k[4]));
+			u.setPercentFemale(Double.parseDouble(k[5]));
+			u.setSatVerbal(Double.parseDouble(k[6]));
+			u.setSatMath(Double.parseDouble(k[7]));
+			u.setExpenses(Double.parseDouble(k[8]));
+			u.setPercentFinancialAid(Double.parseDouble(k[9]));
+			u.setNumApplicants(Integer.parseInt(k[10]));
+			u.setPercentAdmitted(Double.parseDouble(k[11]));
+			u.setPercentEnrolled(Double.parseDouble(k[12]));
+			u.setScaleAcademics(Integer.parseInt(k[13]));
+			u.setScaleSocial(Integer.parseInt(k[14]));
+			u.setScaleQualityOfLife(Integer.parseInt(k[15]));
+			result.add(u);
 		}
 
 		return result;
