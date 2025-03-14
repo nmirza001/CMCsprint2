@@ -1,5 +1,8 @@
 package cmc.backend.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Represents a University entity.
  * @author Roman Lefler
@@ -26,6 +29,8 @@ public class University {
 	private double percentFinancialAid = -1d;
 	private double percentAdmitted = -1d;
 	private double percentEnrolled = -1d;
+	
+	private ArrayList<String> emphases = new ArrayList<>();
 	
 	/**
 	 * Creates a university with a name and otherwise unknown information.
@@ -293,6 +298,18 @@ public class University {
 	public void setPercentEnrolled(double percentEnrolled) {
 		ensure(0d, percentEnrolled, 100d);
 		this.percentEnrolled = percentEnrolled;
+	}
+	
+	public void addEmphasis(String e) {
+		emphases.add(e);
+	}
+	
+	public boolean removeEmphasis(String e) {
+		return emphases.remove(e);
+	}
+	
+	public List<String> getEmphases() {
+		return emphases;
 	}
 	
 }

@@ -103,39 +103,6 @@ public class DatabaseController {
 		}
 	}
 	
-	/**
-	 * Gets the list of all the universities in the DB
-	 * @return A list of universities
-	 * @author Roman Lefler
-	 * @version Mar 13, 2025
-	 */
-	public List<University> getAllSchools() {
-		String[][] dbUniversityList = this.database.university_getUniversities();
-
-		ArrayList<University> result = new ArrayList<>();
-		for (String[] k : dbUniversityList) {
-			University u = new University(k[0]);
-			u.setState(k[1]);
-			u.setLocation(k[2]);
-			u.setControl(k[3]);
-			u.setNumStudents(Integer.parseInt(k[4]));
-			u.setPercentFemale(Double.parseDouble(k[5]));
-			u.setSatVerbal(Double.parseDouble(k[6]));
-			u.setSatMath(Double.parseDouble(k[7]));
-			u.setExpenses(Double.parseDouble(k[8]));
-			u.setPercentFinancialAid(Double.parseDouble(k[9]));
-			u.setNumApplicants(Integer.parseInt(k[10]));
-			u.setPercentAdmitted(Double.parseDouble(k[11]));
-			u.setPercentEnrolled(Double.parseDouble(k[12]));
-			u.setScaleAcademics(Integer.parseInt(k[13]));
-			u.setScaleSocial(Integer.parseInt(k[14]));
-			u.setScaleQualityOfLife(Integer.parseInt(k[15]));
-			result.add(u);
-		}
-
-		return result;
-	}
-	
 	// save a school to a particular user's list
 	// TODO: It feels like we should be able to do this as part of
 	//       "updating" a user in the DB.
@@ -179,7 +146,82 @@ public class DatabaseController {
 	}
 	
 	/**
+	 * Gets all universities' emphases.
+	 * @return A map of university names to a list of emphases.
+	 * @author Roman Lefler
+	 * @version Mar 14, 2025
+	 */
+	private Map<String, List<String>> getUniversitiesEmphases() {
+		String[][] emphases = database.university_getNamesWithEmphases();
+		Map<String, List<String>> dict = new HashMap<String, List<String>>();
+		for(String[] kv : emphases) {
+			
+			List<String> list = dict.get(kv[0]);
+			if(list == null) {
+				list = new ArrayList<>(3);
+				dict.put(kv[0], list);
+			}
+			list.add(kv[1]);
+		}
+		return dict;
+	}
+	
+	/**
+	 * Gets the list of all the universities in the DB
+	 * @return A list of universities
+	 * @author Roman Lefler
+	 * @version Mar 13, 2025
+	 */
+	public List<University> getAllSchools() {
+		String[][] dbUniversityList = this.database.university_getUniversities();
+
+		Map<String, List<String>> emphases = getUniversitiesEmphases();
+		ArrayList<University> result = new ArrayList<>();
+		for (String[] k : dbUniversityList) {
+			University u = new University(k[0]);
+			u.setState(k[1]);
+			u.setLocation(k[2]);
+			u.setControl(k[3]);
+			u.setNumStudents(Integer.parseInt(k[4]));
+			u.setPercentFemale(Double.parseDouble(k[5]));
+			u.setSatVerbal(Double.parseDouble(k[6]));
+			u.setSatMath(Double.parseDouble(k[7]));
+			u.setExpenses(Double.parseDouble(k[8]));
+			u.setPercentFinancialAid(Double.parseDouble(k[9]));
+			u.setNumApplicants(Integer.parseInt(k[10]));
+			u.setPercentAdmitted(Double.parseDouble(k[11]));
+			u.setPercentEnrolled(Double.parseDouble(k[12]));
+			u.setScaleAcademics(Integer.parseInt(k[13]));
+			u.setScaleSocial(Integer.parseInt(k[14]));
+			u.setScaleQualityOfLife(Integer.parseInt(k[15]));
+			for(String e : emphases.get(k[0])) u.addEmphasis(e);
+			
+			result.add(u);
+		}
+
+		return result;
+	}
+	
+	/**
+	 * Gets a list of all possible emphases.
+	 * @return A list of all emphases.
+	 * @author Roman Lefler
+	 * @version Mar 14, 2025
+	 */
+	public List<String> getAllEmphases() {
+		// It's not clear to me why this returns a 2D array
+		String[][] arr = database.university_getEmphases();
+		List<String> list = new ArrayList<String>();
+		for(int i = 0; i < arr.length; i++) {
+			for(int j = 0; j < arr[i].length; j++) list.add(arr[i][j]);
+		}
+		
+		return list;
+	}
+	
+	/**
 	 * Adds a new university to the database.
+	 * @param u University with attributes to add.
 	 * @return {@code true} if the operation succeeded.
 	 * @author Roman Lefler
 	 * @version Mar 13, 2025
@@ -194,6 +236,34 @@ public class DatabaseController {
 				u.getScaleSocial(), u.getScaleQualityOfLife());
 		
 		return result == 1;
+	}
+	
+	/**
+	 * Removes an emphasis from a university.
+	 * The University object will also have the emphasis removed.
+	 * @param u University to remove emphasis from.
+	 * @param emphasis The emphasis to remove
+	 * @return {@code true} is succeeded.
+	 * @author Roman Lefler
+	 * @version Mar 14, 2025
+	 */
+	public boolean removeEmphasis(University u, String emphasis) {
+		int result = database.university_removeUniversityEmphasis(u.getName(), emphasis);
+		u.removeEmphasis(emphasis);
+		return result > 0;
+	}
+	
+	/**
+	 * Removes a university from the database.
+	 * @param u Removes a university by name (only the name is used)
+	 * @return {@code true} if the operation succeeded.
+	 * @author Roman Lefler
+	 * @version Mar 14, 2025
+	 */
+	public boolean removeUniversity(University u) {
+		for(String k : u.getEmphases()) removeEmphasis(u, k);
+		int result = database.university_deleteUniversity(u.getName());
+		return result > 0;
 	}
 	
 }
