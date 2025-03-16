@@ -23,10 +23,7 @@ public class UniversityTest {
 	
 	private University getUni(String name) {
 		List<University> us = db.getAllSchools();
-		for(University u : us) {
-			if(u.getName().equals(name)) return u;
-		}
-		return null;
+		return University.find(us, name);
 	}
 	
 	@Before
@@ -47,9 +44,25 @@ public class UniversityTest {
 	}
 	
 	@Test
-	public void testSetUp() {
-		// Right now we don't have University methods
-		// to actually test so just test the setup
+	public void testEditEmphasis() {
+		University initial = getUni(NAME);
+		initial.addEmphasis("LIBERAL ARTS");
+		db.editUniversity(initial);
+		initial = null;
+		
+		// Add a emphasis
+		University later = getUni(NAME);
+		List<String> emphases = later.getEmphases();
+		Assert.assertEquals(emphases.size(), 1);
+		Assert.assertEquals(emphases.get(0), "LIBERAL ARTS");
+		
+		// Remove an emphasis
+		later.removeEmphasis("LIBERAL ARTS");
+		db.editUniversity(later);
+		later = null;
+		
+		University fffinal = getUni(NAME);
+		Assert.assertEquals(fffinal.getEmphases().size(), 0);
 	}
 
 }
