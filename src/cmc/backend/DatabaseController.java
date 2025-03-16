@@ -194,7 +194,10 @@ public class DatabaseController {
 			u.setScaleAcademics(Integer.parseInt(k[13]));
 			u.setScaleSocial(Integer.parseInt(k[14]));
 			u.setScaleQualityOfLife(Integer.parseInt(k[15]));
-			for(String e : emphases.get(k[0])) u.addEmphasis(e);
+			List<String> schoolEmphases = emphases.get(k[0]);
+			if(schoolEmphases != null) {
+				for(String e : schoolEmphases) u.addEmphasis(e);
+			}
 			
 			result.add(u);
 		}
