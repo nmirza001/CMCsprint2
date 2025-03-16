@@ -312,4 +312,24 @@ public class University {
 		return emphases;
 	}
 	
+	/**
+	 * This method finds the first University object with a given
+	 * name in the given list.
+	 * This method exists like this to encourage getting the list once,
+	 * instead of making a new list say every 'getUni' call.
+	 * @param list List of universities
+	 * @param name Exact name to search for
+	 * @return First University found, or {@code null} if none are found.
+	 * @author Roman Lefler
+	 * @version Mar 16, 2025
+	 */
+	public static University find(List<University> list, String name) {
+		if(list == null) throw new IllegalArgumentException("List cannot be null.");
+		ensureCaps(name);
+		for(University u : list) {
+			if(u.getName().equals(name)) return u;
+		}
+		return null;
+	}
+	
 }

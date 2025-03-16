@@ -1,8 +1,10 @@
 package cmc.backend;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import cmc.CMCException;
 import cmc.backend.entities.University;
@@ -16,6 +18,12 @@ import dblibrary.project.csci230.*;
  * @author Sally Sparrow
  */
 public class DatabaseController {
+	
+	/**
+	 * Used for when something shouldn't happen, i.e. a DB error when it should always work.
+	 */
+	private static final String SHOULDNT_HAPPEN = "If you're seeing this DatabaseController has a bug.";
+	
 	private UniversityDBLibrary database;
 
 	// The default constructor that connects to the underlying
@@ -147,6 +155,10 @@ public class DatabaseController {
 	
 	/**
 	 * Gets all universities' emphases.
+	 * Note that the caller should not assume that all universities
+	 * are in the dictionary and if a university has no emphases
+	 * it will not be in the dictionary and hence 'get' would
+	 * return {@code null}.
 	 * @return A map of university names to a list of emphases.
 	 * @author Roman Lefler
 	 * @version Mar 14, 2025
@@ -223,9 +235,47 @@ public class DatabaseController {
 	}
 	
 	/**
+	 * Removes an emphasis from a university.
+	 * 
+	 * This method doesn't take a University object so that
+	 * it doesn't get confused with the list maintained in
+	 * the University object, which can be out of sync with the
+	 * database.
+	 * @param uniName University name to remove emphasis from.
+	 * @param emphasis The emphasis to remove
+	 * @return {@code true} is succeeded.
+	 * @author Roman Lefler
+	 * @version Mar 16, 2025
+	 */
+	private boolean removeEmphasis(String uniName, String emphasis) {
+		int result = database.university_removeUniversityEmphasis(uniName, emphasis);
+		return result > 0;
+	}
+	
+	/**
+	 * Adds an emphasis to a university.
+	 * 
+	 * This method doesn't take a University object so that
+	 * it doesn't get confused with the list maintained in
+	 * the University object, which can be out of sync with the
+	 * database.
+	 * @param uniName University name to add emphasis to.
+	 * @param emphasis The emphasis to add
+	 * @return {@code true} if succeeded.
+	 * @author Roman Lefler
+	 * @version Mar 16, 2025
+	 */
+	private boolean addEmphasis(String uniName, String emphasis) {
+		int result = database.university_addUniversityEmphasis(uniName, emphasis);
+		return result > 0;
+	}
+	
+	/**
 	 * Adds a new university to the database.
 	 * @param u University with attributes to add.
 	 * @return {@code true} if the operation succeeded.
+	 * @see #editUniversity(University)
+	 * @see #removeUniversity(University)
 	 * @author Roman Lefler
 	 * @version Mar 13, 2025
 	 */
@@ -238,35 +288,91 @@ public class DatabaseController {
 				u.getPercentEnrolled(), u.getScaleAcademics(),
 				u.getScaleSocial(), u.getScaleQualityOfLife());
 		
-		return result == 1;
-	}
-	
-	/**
-	 * Removes an emphasis from a university.
-	 * The University object will also have the emphasis removed.
-	 * @param u University to remove emphasis from.
-	 * @param emphasis The emphasis to remove
-	 * @return {@code true} is succeeded.
-	 * @author Roman Lefler
-	 * @version Mar 14, 2025
-	 */
-	public boolean removeEmphasis(University u, String emphasis) {
-		int result = database.university_removeUniversityEmphasis(u.getName(), emphasis);
-		u.removeEmphasis(emphasis);
-		return result > 0;
+		if(result != 1) return false;
+		
+		String uniName = u.getName();
+		for(String e : u.getEmphases()) {
+			if(!addEmphasis(uniName, e)) throw new IllegalStateException(SHOULDNT_HAPPEN);
+		}
+		
+		return true;
 	}
 	
 	/**
 	 * Removes a university from the database.
 	 * @param u Removes a university by name (only the name is used)
 	 * @return {@code true} if the operation succeeded.
+	 * @see #addNewUniversity(University)
+	 * @see #editUniversity(University)
 	 * @author Roman Lefler
 	 * @version Mar 14, 2025
 	 */
 	public boolean removeUniversity(University u) {
-		for(String k : u.getEmphases()) removeEmphasis(u, k);
+		
+		String uniName = u.getName();
+		// Since u's emphasis list can be out of sync with the database's
+		// emphases, we must rely on database's reported emphases
+		Map<String, List<String>> emphasesDict = getUniversitiesEmphases();
+		List<String> emphases = emphasesDict.get(uniName);
+		if(emphases != null) {
+			for(String k : u.getEmphases()) {
+				
+				if(!removeEmphasis(uniName, k)) throw new IllegalStateException(SHOULDNT_HAPPEN);
+			}
+		}
+		
 		int result = database.university_deleteUniversity(u.getName());
 		return result > 0;
+	}
+	
+	/**
+	 * Edits a university. The university must already be in
+	 * the database.
+	 * @param u University information
+	 * @return {@code true} if successful.
+	 * @see #addNewUniversity(University)
+	 * @see #removeUniversity(University)
+	 * @author Roman Lefler
+	 * @version Mar 16, 2025
+	 */
+	public boolean editUniversity(University u) {
+		
+		// # Emphases:
+		// Anything that is present in the database but not u
+		// was removed.
+		// Anything that is present in u but not in the database
+		// was added.
+		String uniName = u.getName();
+		University old = University.find(getAllSchools(), uniName);
+		List<String> oldE = old.getEmphases();
+		List<String> newE = u.getEmphases();
+		// Create a total set of all emphases
+		Set<String> both = new HashSet<>(oldE);
+		both.addAll(newE);
+		// Iterate through the total set of all emphases
+		for(String em : both) {
+			if(oldE.contains(em)) {
+				// In old but not new; Newly removed
+				if(!newE.contains(em)) {
+					if(!removeEmphasis(uniName, em)) throw new IllegalStateException(SHOULDNT_HAPPEN);
+				}
+			}
+			// Not in old (and therefore must be in new); Newly added
+			else {
+				if(!addEmphasis(uniName, em)) throw new IllegalStateException(SHOULDNT_HAPPEN);
+			}
+		}
+		
+		// Here's the easy part
+		int result = database.university_editUniversity(
+				u.getName(), u.getState(), u.getLocation(), u.getControl(),
+				u.getNumStudents(), u.getPercentFemale(), u.getSatVerbal(),
+				u.getSatMath(), u.getExpenses(), u.getPercentFinancialAid(),
+				u.getNumApplicants(), u.getPercentAdmitted(),
+				u.getPercentEnrolled(), u.getScaleAcademics(),
+				u.getScaleSocial(), u.getScaleQualityOfLife());
+		
+		return result == 1;
 	}
 	
 }
