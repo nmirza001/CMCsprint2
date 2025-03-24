@@ -44,7 +44,11 @@ public class AdminUniversityMenu {
 			removeSchoolPrompt(s);
 			break;
 		case 4:
+			// Return false to end loop
 			return false;
+		default:
+			System.out.println("Invalid option.");
+			break;
 		}
 		return true;
 	}
