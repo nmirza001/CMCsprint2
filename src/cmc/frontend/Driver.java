@@ -60,7 +60,7 @@ public class Driver {
 		printHeader("Admin Menu");
 		
 		int choice = ConsoleUtils.getMenuOption(s, Arrays.asList("View List of Users", "New University",
-				"Logout"));
+				"Universities", "Logout"));
 		
 		switch(choice) {
 		case 1:
@@ -79,6 +79,10 @@ public class Driver {
 			adminMenu(s);
 			break;
 		case 3:
+			AdminUniversityMenu uniMenu = new AdminUniversityMenu(ui);
+			uniMenu.prompt(s);
+			break;
+		case 4:
 			ui.logout();
 			break;
 		default:
