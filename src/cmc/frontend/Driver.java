@@ -59,7 +59,7 @@ public class Driver {
 	private static void adminMenu(Scanner s) {
 		printHeader("Admin Menu");
 		
-		int choice = ConsoleUtils.getMenuOption(s, Arrays.asList("View List of Users", "New University",
+		int choice = ConsoleUtils.getMenuOption(s, Arrays.asList("View List of Users",
 				"Universities", "Logout"));
 		
 		switch(choice) {
@@ -67,22 +67,10 @@ public class Driver {
 			adminUserListMenu(s);
 			break;
 		case 2:
-			University uni = AdminAddSchool.prompt(s);
-			if(uni == null) {
-				System.out.println("\nAdd University canceled.");
-			}
-			else {
-				boolean succ = ui.addNewUniversity(uni);
-				if(succ) System.out.println("Successfully added university to system.");
-				else System.out.println("Failed to insert to database.");
-			}
-			adminMenu(s);
-			break;
-		case 3:
 			AdminUniversityMenu uniMenu = new AdminUniversityMenu(ui);
 			uniMenu.prompt(s);
 			break;
-		case 4:
+		case 3:
 			ui.logout();
 			break;
 		default:

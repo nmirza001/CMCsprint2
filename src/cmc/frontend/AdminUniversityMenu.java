@@ -31,12 +31,15 @@ public class AdminUniversityMenu {
 	private boolean promptCycle(Scanner s) {
 		
 		int choice = ConsoleUtils.getMenuOption(s, Arrays.asList(
-				"Remove University", "Go Back"));
+				"Add Universities", "Remove University", "Go Back"));
 		switch(choice) {
 		case 1:
-			removeSchoolPrompt(s);
+			addSchoolPrompt(s);
 			break;
 		case 2:
+			removeSchoolPrompt(s);
+			break;
+		case 3:
 			return false;
 		}
 		return true;
@@ -66,6 +69,18 @@ public class AdminUniversityMenu {
 		
 		University u = ui.getAllUniversities().get(choice - 1);
 		if(ui.removeUniversity(u)) System.out.println("Removed.");
+	}
+	
+	private void addSchoolPrompt(Scanner s) {
+		University uni = AdminAddSchool.prompt(s);
+		if(uni == null) {
+			System.out.println("\nAdd University canceled.");
+		}
+		else {
+			boolean succ = ui.addNewUniversity(uni);
+			if(succ) System.out.println("Successfully added university to system.");
+			else System.out.println("Failed to insert to database.");
+		}
 	}
 	
 }
