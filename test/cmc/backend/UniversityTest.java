@@ -64,5 +64,14 @@ public class UniversityTest {
 		University fffinal = getUni(NAME);
 		Assert.assertEquals(fffinal.getEmphases().size(), 0);
 	}
+	
+	@Test
+	public void deleteWithEmphasis() {
+		University u = new University("TEST SCHOOL NO 2");
+		u.addEmphasis("LIBERAL ARTS");
+		db.addNewUniversity(u);
+		boolean success = db.removeUniversity(u);
+		Assert.assertTrue(success);
+	}
 
 }
