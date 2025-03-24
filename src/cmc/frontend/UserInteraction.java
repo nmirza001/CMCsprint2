@@ -132,16 +132,39 @@ public class UserInteraction {
 	}
 	
 	/**
+	 * Gets a list of every university in the database.
+	 * @return All universities in the database.
+	 * @author Roman Lefler
+	 * @version Mar 24, 2025
+	 */
+	public List<University> getAllUniversities() {
+		return theSystemController.getAllUniversities();
+	}
+	
+	/**
 	 * Adds a new university to the database.
-	 * @param uni University as string array
+	 * @param uni University
 	 * @return {@code true} if the operation succeeded.
-	 * @throws IllegalArgumentException if uni is null
+	 * @throws IllegalArgumentException if uni is {@code null}.
 	 * @author Roman Lefler
 	 * @version Mar 13, 2025
 	 */
 	public boolean addNewUniversity(University uni) {
 		if(uni == null) throw new IllegalArgumentException();
 		return theSystemController.addNewUniversity(uni);
+	}
+	
+	/**
+	 * Removes a university from the database.
+	 * @param u University
+	 * @return {@code true} if the operation succeeded.
+	 * @throws IllegalArgumentException if u is {@code null}.
+	 * @author Roman Lefler
+	 * @version Mar 24, 2025
+	 */
+	public boolean removeUniversity(University u) {
+		if(u == null) throw new IllegalArgumentException();
+		return theSystemController.removeUniversity(u);
 	}
 
 }

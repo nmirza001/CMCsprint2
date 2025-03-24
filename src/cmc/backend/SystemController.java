@@ -110,8 +110,18 @@ public class SystemController {
 	}
 	
 	/**
+	 * Gets a list of every university in the database.
+	 * @return All universities in the database.
+	 * @author Roman Lefler
+	 * @version Mar 24, 2025
+	 */
+	public List<University> getAllUniversities() {
+		return myDBController.getAllSchools();
+	}
+	
+	/**
 	 * Adds a new university to the database by calling the database controller.
-	 * @param uni University as string array
+	 * @param uni University
 	 * @return {@code true} if the operation succeeded.
 	 * @throws IllegalArgumentException if uni is null
 	 * @author Roman Lefler
@@ -120,6 +130,17 @@ public class SystemController {
 	public boolean addNewUniversity(University uni) {
 		
 		return myDBController.addNewUniversity(uni);
+	}
+	
+	/**
+	 * Removes a university from the database by calling the database controller.
+	 * @param u University
+	 * @return {@code true} if the operation succeeded.
+	 * @throws IllegalArgumentException if u is {@code null}.
+	 */
+	public boolean removeUniversity(University u) {
+		
+		return myDBController.removeUniversity(u);
 	}
 
 }

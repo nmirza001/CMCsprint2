@@ -302,12 +302,15 @@ public class DatabaseController {
 	 * Removes a university from the database.
 	 * @param u Removes a university by name (only the name is used)
 	 * @return {@code true} if the operation succeeded.
+	 * @throws IllegalArgumentException if u is {@code null}.
 	 * @see #addNewUniversity(University)
 	 * @see #editUniversity(University)
 	 * @author Roman Lefler
 	 * @version Mar 14, 2025
 	 */
 	public boolean removeUniversity(University u) {
+		
+		if(u == null) throw new IllegalArgumentException("u cannot be null.");
 		
 		String uniName = u.getName();
 		// Since u's emphasis list can be out of sync with the database's
