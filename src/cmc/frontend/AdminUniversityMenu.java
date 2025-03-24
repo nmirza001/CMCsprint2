@@ -31,15 +31,19 @@ public class AdminUniversityMenu {
 	private boolean promptCycle(Scanner s) {
 		
 		int choice = ConsoleUtils.getMenuOption(s, Arrays.asList(
-				"Add Universities", "Remove University", "Go Back"));
+				"View Universities", "Add Universities",
+				"Remove University", "Go Back"));
 		switch(choice) {
 		case 1:
-			addSchoolPrompt(s);
+			printSchools();
 			break;
 		case 2:
-			removeSchoolPrompt(s);
+			addSchoolPrompt(s);
 			break;
 		case 3:
+			removeSchoolPrompt(s);
+			break;
+		case 4:
 			return false;
 		}
 		return true;
