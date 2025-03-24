@@ -109,19 +109,58 @@ public class SystemController {
 		return usersToSavedSchools.get(user);
 	}
 	
-	/**
-	 * Gets a list of every university in the database.
-	 * @return All universities in the database.
-	 * @author Roman Lefler
-	 * @version Mar 24, 2025
+	/*
+	 * helper method called viewSchools
+	 * @param String schoolName takes an entry for the school to view
+	 * @return sb.toString()
+	 * @return return schoolName + " " + "is not on the list"
+	 * @author Rick Masaana
+	 * @version March 24 2025
 	 */
-	public List<University> getAllUniversities() {
-		return myDBController.getAllSchools();
+	public String viewSchool (String schoolName) {
+		List <University> allSchools = this.myDBController.getAllSchools();
+		
+		//loop through list
+		for (University school : allSchools) {
+			
+			//checks to see if the school is there
+			if (school.getName().equals(schoolName)) {
+			StringBuilder sb = new StringBuilder(); //string builder sb
+			sb.append("School Name: ").append(school.getName()).append("\n");
+			sb.append("State: ").append(school.getState()).append("\n");
+			sb.append("Location: ").append(school.getLocation()).append("\n");
+			sb.append("Control: ").append(school.getControl()).append("\n");
+			sb.append("Number of Students: ").append(school.getNumStudents()).append("\n");
+			sb.append("Percent Female: ").append(school.getPercentFemale()).append("\n");
+			sb.append("SAT Verbal: ").append(school.getSatVerbal()).append("\n");
+			sb.append("SAT Math: ").append(school.getSatMath()).append("\n");
+			sb.append("Expenses: ").append(school.getExpenses()).append("\n");
+			sb.append("Percent Financial Aid: ").append(school.getPercentFinancialAid()).append("\n");
+			sb.append("Number of Applicants: ").append(school.getNumApplicants()).append("\n");
+			sb.append("Percent Admitted: ").append(school.getPercentAdmitted()).append("\n");
+			sb.append("Percent Enrolled: ").append(school.getPercentEnrolled()).append("\n");
+			sb.append("Academics Scale: ").append(school.getScaleAcademics()).append("\n");
+			sb.append("Social Scale: ").append(school.getScaleSocial()).append("\n");
+			sb.append("Quality of Life Scale: ").append(school.getScaleQualityOfLife()).append("\n");
+			sb.append("Emphases: ");
+			
+			//additional special info
+			if (school.getEmphases().isEmpty()) {
+				sb.append("no special info\n");
+			}
+			else {
+				sb.append(String.join(", ", school.getEmphases())).append("\n");
+			}
+			return sb.toString(); //proper return
+			}
+		}
+		
+		return schoolName + " " + "is not on the list"; //alt return
 	}
 	
 	/**
 	 * Adds a new university to the database by calling the database controller.
-	 * @param uni University
+	 * @param uni University as string array
 	 * @return {@code true} if the operation succeeded.
 	 * @throws IllegalArgumentException if uni is null
 	 * @author Roman Lefler
@@ -130,17 +169,6 @@ public class SystemController {
 	public boolean addNewUniversity(University uni) {
 		
 		return myDBController.addNewUniversity(uni);
-	}
-	
-	/**
-	 * Removes a university from the database by calling the database controller.
-	 * @param u University
-	 * @return {@code true} if the operation succeeded.
-	 * @throws IllegalArgumentException if u is {@code null}.
-	 */
-	public boolean removeUniversity(University u) {
-		
-		return myDBController.removeUniversity(u);
 	}
 
 }
