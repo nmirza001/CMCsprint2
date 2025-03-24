@@ -15,57 +15,7 @@ public class Driver {
 	private Driver() throws CMCException {
 		throw new CMCException("Attempt to instantiate a Driver");
 	}
-	
-	/**
-	 * Get the selected menu option based on user entry.
-	 * This reads one line from the provided Scanner.
-	 * 
-	 * @param s the Scanner from which to read the user's input
-	 * @param minChoice the minimum allowed option (inclusive)
-	 * @param maxChoice the maximum allowed option (inclusive)
-	 * @return the selected integer, or -1 if invalid input is entered
-	 */
-	private static int getSingleMenuEntry(Scanner s, int minChoice, int maxChoice) {
-		String choice = s.nextLine();
-		try {
-			int numChoice = Integer.parseInt(choice);
-			if (numChoice < minChoice || numChoice > maxChoice)
-				throw new NumberFormatException("Invalid selection");
-			return numChoice;
-		}
-		catch (Exception e) {
-			// here if either a non-integer is entered or it is outside
-			// the legal range of values (per min/maxChoice)
-			return -1;
-		}
-	}
-	
-	/**
-	 * Get the selected menu option based on user entry.
-	 * This reads lines from the provided Scanner until the user enters
-	 * a menu option (number) that matches one of the options provided
-	 * (i.e., is between 1 and the number of options).
-	 * 
-	 * @param s the Scanner from which to read the user's input
-	 * @param options the menu options the user has
-	 * @return the selected menu option, as an integer (1 more than the
-	 * position in the options array)
-	 */
-	private static int getMenuOption(Scanner s, List<String> options) {		
-		int choice = -1;
-		while (choice == -1) {
-			System.out.println("Choose an option:");
-			for (int i = 0; i < options.size(); i++) {
-				System.out.println((i+1) + ": " + options.get(i));
-			}
-			choice = getSingleMenuEntry(s, 1, options.size());
-			if (choice == -1)
-				System.out.println("Invalid option.");
-		}
 		
-		return choice;
-	}
-	
 	// print the header for the current menu
 	private static void printHeader(String title) {
 		String dashes = "";
@@ -87,7 +37,7 @@ public class Driver {
 		}
 		System.out.println();
 		
-		int choice = getMenuOption(s, Arrays.asList("Add User", "Remove User", "Go Back"));
+		int choice = ConsoleUtils.getMenuOption(s, Arrays.asList("Add User", "Remove User", "Go Back"));
 		
 		switch(choice) {
 		case 1:
@@ -109,7 +59,8 @@ public class Driver {
 	private static void adminMenu(Scanner s) {
 		printHeader("Admin Menu");
 		
-		int choice = getMenuOption(s, Arrays.asList("View List of Users", "New University", "Logout"));
+		int choice = ConsoleUtils.getMenuOption(s, Arrays.asList("View List of Users", "New University",
+				"Logout"));
 		
 		switch(choice) {
 		case 1:
@@ -144,7 +95,7 @@ public class Driver {
 		}
 		System.out.println();
 
-		int choice = getMenuOption(s, Arrays.asList("Save School", "Go Back"));
+		int choice = ConsoleUtils.getMenuOption(s, Arrays.asList("Save School", "Go Back"));
 
 		switch(choice) {
 		case 1:
@@ -170,7 +121,7 @@ public class Driver {
 		}
 		System.out.println();
 		
-		int choice = getMenuOption(s, Arrays.asList("Go Back"));
+		int choice = ConsoleUtils.getMenuOption(s, Arrays.asList("Go Back"));
 		
 		switch(choice) {
 		case 1:
@@ -184,7 +135,7 @@ public class Driver {
 	private static void regularUserMenu(Scanner s) {
 		printHeader("User Menu");
 		
-		int choice = getMenuOption(s, Arrays.asList("Search", "View Saved Schools", "Logout"));
+		int choice = ConsoleUtils.getMenuOption(s, Arrays.asList("Search", "View Saved Schools", "Logout"));
 		
 		switch(choice) {
 		case 1:
