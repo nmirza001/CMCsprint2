@@ -140,12 +140,17 @@ public class Driver {
 			userSavedSchoolListMenu(s);
 			break;
 		case 3:
+			// FIX: UserInterface doesn't have a viewSchool method
+			/*
 			System.out.println("enter school name to view: ");
-			String shoolName = s.nextLine(); //takes String val to pass to viewSchool
-			String shoolInfo = ui.viewSchool(schoolName); //once user interface is set up
+			String schoolName = s.nextLine(); //takes String val to pass to viewSchool
+			// String schoolInfo = ui.viewSchool(schoolName); //once user interface is set up
 			System.out.println("\n" + schoolName + "'s information: "); //present info for chosen school
 			System.out.println (schoolInfo); //school info
 			System.out.println();
+			*/
+			System.out.println("Not implemented.");
+			break;
 		case 4:
 			ui.logout();
 			break;
