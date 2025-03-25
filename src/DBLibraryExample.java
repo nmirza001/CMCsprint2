@@ -43,6 +43,14 @@ public class DBLibraryExample {
   }
   
   public static void main(String[] args) {
+	
+	// Roman Lefler Mar 25, 2024 {
+	if(args.length == 0) {
+		System.out.println("Don't run this file. Open cmc.frontend.Driver.java and then click run.");
+		return;
+	}
+	// }
+
     try{
       int topx = -1;
       DBLibraryExample dbld = new DBLibraryExample(args[0],args[1]);
