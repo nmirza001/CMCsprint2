@@ -1,18 +1,16 @@
 # CMC
-This is the template for the Choose-My-College system project.  While some
-development is complete, we still have a long way to go, and documentation is
-sparse.
+
+Choose-My-College is a system where users can get information on choosing the right college for them.
 
 ## Basic Instructions
 
-TODO: Basic instructions for getting access to the system should go here.
+Create an eclispe project and clone the git repository, ensuring you have proper credentials to do so.
 
 ## Building CMC
 
-TODO: Instructions for building CMC should go here.
+Open the project in Eclipse, click the project in the project explorer, click Project, and click "Build Project."
 
 ## Running CMC
 
-TODO: Instructions for how to use CMC (in it's current form!) should go here.
-
+Open the project in Eclipse, open Driver.java, and click Run as Java Application.
 
