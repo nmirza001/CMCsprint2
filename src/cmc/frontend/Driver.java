@@ -140,6 +140,13 @@ public class Driver {
 			userSavedSchoolListMenu(s);
 			break;
 		case 3:
+			System.out.println("enter school name to view: ");
+			String shoolName = s.nextLine(); //takes String val to pass to viewSchool
+			String shoolInfo = ui.viewSchool(schoolName); //once user interface is set up
+			System.out.println("\n" + schoolName + "'s information: "); //present info for chosen school
+			System.out.println (schoolInfo); //school info
+			System.out.println();
+		case 4:
 			ui.logout();
 			break;
 		default:
