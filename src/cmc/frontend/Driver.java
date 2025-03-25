@@ -127,7 +127,7 @@ public class Driver {
 	private static void regularUserMenu(Scanner s) {
 		printHeader("User Menu");
 		
-		int choice = ConsoleUtils.getMenuOption(s, Arrays.asList("Search", "View Saved Schools", "Logout"));
+		int choice = ConsoleUtils.getMenuOption(s, Arrays.asList("Search", "View Saved Schools", "View School", "Logout"));
 		
 		switch(choice) {
 		case 1:
