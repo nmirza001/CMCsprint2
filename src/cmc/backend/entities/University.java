@@ -30,7 +30,7 @@ public class University {
 	private double percentAdmitted = -1d;
 	private double percentEnrolled = -1d;
 	
-	private ArrayList<String> emphases = new ArrayList<>();
+	private final ArrayList<String> emphases = new ArrayList<>();
 	
 	/**
 	 * Creates a university with a name and otherwise unknown information.
