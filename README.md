@@ -14,3 +14,8 @@ Open the project in Eclipse, click the project in the project explorer, click Pr
 
 Open the project in Eclipse, open Driver.java, and click Run as Java Application.
 
+## Running Tests
+
+
+In Eclipse, open the test folder and find the test you want to run, then click "Run as JUnit Test."
+
